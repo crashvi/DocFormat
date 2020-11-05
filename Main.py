@@ -9,6 +9,8 @@ def exit(self):
 
 root.bind("<Escape>", exit)	
 
+tex=Text(root)
+tex.pack()
 
 m=Menu(root)
 root.config(menu=m)
