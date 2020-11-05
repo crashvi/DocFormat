@@ -9,7 +9,8 @@ def exit(self):
 
 root.bind("<Escape>", exit)	
 
-
+tex=Text(root)
+tex.pack()
 
 
 
