@@ -14,19 +14,12 @@ def new_win():
 	win=Toplevel(root)
 
 def about_win():
-	win=Toplevel(root)
+	win=Toplevel()
 	win.title("About")
-	win.geometry("582x218")
-	frame=Frame(win)
-	frame.pack()
-	canvas = Canvas(win, height=218, width=582, bg='red')
-	canvas.pack()
-	image = Image.open("0.png")
-	photo = ImageTk.PhotoImage(image)
-	image = canvas.create_image(0, 0, image=phot)
-	but=Button(win)
-	but.pack()
-	
+	win.geometry("580x420")
+	#e=Text(win)
+	#file=open("задание.txt")
+
 root.bind("<Escape>", close_win)	
 
 tex=Text(root)
