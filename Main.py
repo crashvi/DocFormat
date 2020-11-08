@@ -1,6 +1,6 @@
 from tkinter import *
-from PIL import Image, ImageTk
-
+#from PIL import Image, ImageTk
+from tkinter.filedialog import *
 
 root = Tk()
 root.title("Лабораторная работа №4 - git (вариант 1)")
@@ -15,11 +15,16 @@ def new_win():
 
 def about_win():
 	win=Toplevel()
-	win.title("About")
-	win.geometry("580x420")
-	#e=Text(win)
-	#file=open("задание.txt")
-
+	win.title("О программе")
+	win.geometry("580x175")
+	win.resizable(width=False, height = False)
+	zad=Text(win, font="Arial")
+	file=open("задание.txt",'r',encoding="utf-8")
+	for line in file:
+		zad.insert(END,line)
+	file.close()
+	zad.pack()
+	
 root.bind("<Escape>", close_win)	
 
 tex=Text(root)
