@@ -1,17 +1,18 @@
 from tkinter import *
-#from PIL import Image, ImageTk
+import	 fileinput
 from tkinter.filedialog import *
+#from tkinter.messagebox import *
+from tkinter import messagebox
+
 
 root = Tk()
 root.title("Лабораторная работа №4 - git (вариант 1)")
 root.geometry("400x300")
-root.resizable(width=False, height = False)
+#root.resizable(width=False, height = False)
+filename="1.txt"
 
 def close_win(self):
 	root.destroy()
-
-def new_win():
-	win=Toplevel(root)
 
 def about_win():
 	win=Toplevel()
@@ -24,11 +25,50 @@ def about_win():
 		zad.insert(END,line)
 	file.close()
 	zad.pack()
+
+def _open():
+	global filename
+	op=askopenfilename()
+	for l in fileinput.input(op):
+		tex.insert(END,l)
+	filename=op.rpartition('/')[2]
+	root.title(filename)
+
+def _save():
+	global filename
+	sa=asksaveasfilename(initialfile=filename)
+	letter=tex.get(1.0,END)
+	file=open(sa, "w")
+	file.write(letter)
+	filename=file.name.rpartition('/')[2]
+	root.title(filename)
+	file.close()
+
+def _rename():
+	global filename
+	def close_ren():
+		filename=nname.get()
+		root.title(filename)
+		ren.destroy()
+	ren=Toplevel()
+	ren.geometry("150x50")
+	lab=Label(ren,text="Введите новое имя файла")
+	lab.pack()
+	ren.title("RENAME")
+	ren.resizable(width=False, height = False)
+	nname=Entry(ren)
+	nname.pack()
+	nname.bind("<Enter>", close_ren)
+	
+def devs():
+	messagebox.showinfo("Разработчики",	"Выполнили студенты группы ИСМ-20-2\nАнтонов, Болатов")		
 	
 root.bind("<Escape>", close_win)	
 
-tex=Text(root)
+tex=Text(root, font="12")
 tex.pack()
+
+
 
 m=Menu(root)
 root.config(menu=m)
@@ -40,10 +80,10 @@ root.config(menu=m)
 
 m1=Menu(m)
 m.add_cascade(label="File", menu=m1)
-m1.add_command(label="Открыть")
-m1.add_command(label="Сохранить")
-m1.add_command(label="Ввод нового имени файла")
-m1.add_command(label="Выход")
+m1.add_command(label="Открыть", command=_open)
+m1.add_command(label="Сохранить", command=_save)
+m1.add_command(label="Ввод нового имени файла", command=_rename)
+m1.add_command(label="Выход", command=close_win)
 
 m2=Menu(m)
 m.add_cascade(label="Print", menu=m2)
@@ -61,5 +101,6 @@ m3.add_command(label="Распечать текущую дату и время")
 m4=Menu(m)
 m.add_cascade(label="About", menu=m4)
 m4.add_command(label="О программе", command=about_win)
+m4.add_command(label="Разработчики", command=devs)
 
 root.mainloop()
