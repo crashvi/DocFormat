@@ -27,7 +27,6 @@ def win_set():
 			P3=1
 		else:
 			P3=0
-		print(P3)
 		win_s.destroy()
 	P3_0=IntVar()
 	win_s=Toplevel()
@@ -37,7 +36,6 @@ def win_set():
 	L1=Label(win_s, text="Число строк для печати").grid(row=0,column=0)
 	L2=Label(win_s, text="Отступ слева").grid(row=1,column=0)
 	L3=Label(win_s, text="Распечать текущую дату и время").grid(row=2,column=0)
-	print(P3)
 	Param1=Entry(win_s)
 	Param1.insert(0, str(P1))
 	Param2=Entry(win_s)
