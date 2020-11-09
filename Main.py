@@ -2,12 +2,13 @@ from tkinter import *
 import	 fileinput
 from tkinter.filedialog import *
 from tkinter import messagebox
+root = Tk()
 
 P1=0
-P2=0 #число строк и отступ слева
-P3=0 #дата время текущие
+P2=0 
+P3=0
 
-root = Tk()
+
 root.title("Лабораторная работа №4 - git (вариант 1)")
 root.geometry("400x300")
 #root.resizable(width=False, height = False)
@@ -19,10 +20,14 @@ def close_win(self):
 def win_set():
 	global P1,P2,P3
 	def save_s():
+		global P1,P2,P3
 		P1=int(Param1.get())
 		P2=int(Param2.get())
-		P3=P3_0
+		if Che==1:
+			P3=1
+		print(P3)
 		win_s.destroy()
+	P3_0=IntVar()
 	win_s=Toplevel()
 	win_s.title("Параметры печати")
 	win_s.geometry("580x175")
@@ -30,9 +35,16 @@ def win_set():
 	L1=Label(win_s, text="Число строк для печати").grid(row=0,column=0)
 	L2=Label(win_s, text="Отступ слева").grid(row=1,column=0)
 	L3=Label(win_s, text="Распечать текущую дату и время").grid(row=2,column=0)
-	Param1=Entry(win_s, text=str(P1)).grid(row=0,column=1)
-	Param2=Entry(win_s, text=str(P2)).grid(row=1,column=1)
-	Che1=Checkbutton(win_s, text=str(P3), variable=P_0, onvalue=1, offvalue=0).grid(row=2,column=1)
+	print(P3)
+	Param1=Entry(win_s)
+	Param1.insert(0, str(P1))
+	Param2=Entry(win_s)
+	Param2.insert(0, str(P2))
+	Param1.grid(row=0,column=1)
+	Param2.grid(row=1,column=1)
+	if P3==1:
+		Che=1
+	Che1=Checkbutton(win_s, variable=P3_0, onvalue=1, offvalue=0).grid(row=2,column=1)
 	B1=Button(win_s, text="сохранить изменения", command=save_s).grid(row=3,column=1)
 
 def win_about():
