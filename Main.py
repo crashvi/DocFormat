@@ -1,20 +1,41 @@
 from tkinter import *
 import	 fileinput
 from tkinter.filedialog import *
-#from tkinter.messagebox import *
 from tkinter import messagebox
 
+P1=0
+P2=0 #число строк и отступ слева
+P3=0 #дата время текущие
 
 root = Tk()
 root.title("Лабораторная работа №4 - git (вариант 1)")
 root.geometry("400x300")
 #root.resizable(width=False, height = False)
-filename="1.txt"
+filename="Default.txt"
 
 def close_win(self):
 	root.destroy()
 
-def about_win():
+def win_set():
+	global P1,P2,P3
+	def save_s():
+		P1=int(Param1.get())
+		P2=int(Param2.get())
+		P3=P3_0
+		win_s.destroy()
+	win_s=Toplevel()
+	win_s.title("Параметры печати")
+	win_s.geometry("580x175")
+	win_s.resizable(width=False, height = False)
+	L1=Label(win_s, text="Число строк для печати").grid(row=0,column=0)
+	L2=Label(win_s, text="Отступ слева").grid(row=1,column=0)
+	L3=Label(win_s, text="Распечать текущую дату и время").grid(row=2,column=0)
+	Param1=Entry(win_s, text=str(P1)).grid(row=0,column=1)
+	Param2=Entry(win_s, text=str(P2)).grid(row=1,column=1)
+	Che1=Checkbutton(win_s, text=str(P3), variable=P_0, onvalue=1, offvalue=0).grid(row=2,column=1)
+	B1=Button(win_s, text="сохранить изменения", command=save_s).grid(row=3,column=1)
+
+def win_about():
 	win=Toplevel()
 	win.title("О программе")
 	win.geometry("580x175")
@@ -46,7 +67,7 @@ def _save():
 
 def _rename():
 	global filename
-	def close_ren():
+	def close_ren(self):
 		filename=nname.get()
 		root.title(filename)
 		ren.destroy()
@@ -56,11 +77,11 @@ def _rename():
 	lab.pack()
 	ren.title("RENAME")
 	ren.resizable(width=False, height = False)
-	nname=Entry(ren)
+	nname=Entry(ren, textvariable=filename)
 	nname.pack()
-	nname.bind("<Enter>", close_ren)
+	nname.bind("<Return>", close_ren)
 	
-def devs():
+def win_devs():
 	messagebox.showinfo("Разработчики",	"Выполнили студенты группы ИСМ-20-2\nАнтонов, Болатов")		
 	
 root.bind("<Escape>", close_win)	
@@ -68,15 +89,8 @@ root.bind("<Escape>", close_win)
 tex=Text(root, font="12")
 tex.pack()
 
-
-
 m=Menu(root)
 root.config(menu=m)
-
-
-
-
-
 
 m1=Menu(m)
 m.add_cascade(label="File", menu=m1)
@@ -94,13 +108,11 @@ m2.add_command(label="Печать на экран")
 
 m3=Menu(m)
 m.add_cascade(label="Settings", menu=m3)
-m3.add_command(label="Установить число строк для печати")
-m3.add_command(label="Задать отступ слева")
-m3.add_command(label="Распечать текущую дату и время")
+m3.add_command(label="Настройки", command=win_set)
 
 m4=Menu(m)
 m.add_cascade(label="About", menu=m4)
-m4.add_command(label="О программе", command=about_win)
-m4.add_command(label="Разработчики", command=devs)
+m4.add_command(label="О программе", command=win_about)
+m4.add_command(label="Разработчики", command=win_devs)
 
 root.mainloop()
