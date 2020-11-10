@@ -2,6 +2,8 @@ from tkinter import *
 import	 fileinput
 from tkinter.filedialog import *
 from tkinter import messagebox
+import os
+
 root = Tk()
 
 P1=0
@@ -94,7 +96,16 @@ def _rename():
 	nname.bind("<Return>", close_ren)
 	
 def win_devs():
-	messagebox.showinfo("Разработчики",	"Выполнили студенты группы ИСМ-20-2\nАнтонов, Болатов")		
+	messagebox.showinfo("Разработчики",	"Выполнили студенты группы ИСМ-20-2\nАнтонов, Болатов")
+
+def PRINTER():
+	global filename
+	if filename != "Default.txt":
+		print("if = title")
+		os.startfile(filename, "print")
+	else:
+		print("else no")
+		messagebox.showinfo("Ошибка-1",	"Выполните сохранение файла")	
 	
 root.bind("<Escape>", close_win)	
 
@@ -113,7 +124,7 @@ m1.add_command(label="Выход", command=close_win)
 
 m2=Menu(m)
 m.add_cascade(label="Print", menu=m2)
-m2.add_command(label="Печать на принтер")
+m2.add_command(label="Печать на принтер", command=PRINTER)
 m2.add_command(label="Печать в файл")
 m2.add_command(label="Печать на экран")
 
