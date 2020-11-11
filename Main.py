@@ -1,3 +1,4 @@
+from datetime import datetime
 from tkinter import *
 import	 fileinput
 from tkinter.filedialog import *
@@ -6,9 +7,9 @@ import os
 
 root = Tk()
 
-P1=0
-P2=0 
-P3=0
+P1=5
+P2=10 
+P3=1
 
 filename="Default.txt"
 
@@ -16,7 +17,7 @@ root.title("Лабораторная работа №4 - git (вариант 1)"
 root.geometry("400x300")
 #root.resizable(width=False, height = False)
 
-def close_win():
+def close_win(self):
 	root.destroy()
 
 def win_set():
@@ -64,6 +65,7 @@ def win_about():
 def _open():
 	global filename
 	try:
+		tex.delete(1.0,END)
 		op=askopenfilename()
 		for l in fileinput.input(op):
 			tex.insert(END,l)
@@ -114,9 +116,27 @@ def PRINTER():
 	else:
 		messagebox.showinfo("Ошибка-1",	"Выполните сохранение файла")	
 
+def PrintToScreen():
+	global P1,P2,P3
+	s= []
+	print()
+	for i in range(1,int(P1)+1,1):
+		s.append(tex.get(str(i)+'.0',str(i)+'.end'))
+		s[i-1]='*'*int(P2)+s[i-1]
+	for i in range(1,int(P1)+1,1):
+		print(s[i-1])
+	if P3==1:
+		current_datetime = datetime.now()
+		DT = str(current_datetime).partition('.')[0]
+		print('\n',DT,'\n')
+	else:
+		print('\n')
+
+	
+
 root.bind("<Escape>", close_win)	
 
-tex=Text(root, font="12")
+tex=Text(root, font="12", width=400,)
 tex.pack()
 
 m=Menu(root)
@@ -132,8 +152,8 @@ m1.add_command(label="Выход", command=close_win)
 m2=Menu(m)
 m.add_cascade(label="Print", menu=m2)
 m2.add_command(label="Печать на принтер", command=PRINTER)
-m2.add_command(label="Печать в файл") #command=to_printer(tex.get(1.0, END))
-m2.add_command(label="Печать на экран")
+m2.add_command(label="Печать в файл",)# command=PrintToFile)
+m2.add_command(label="Печать на экран", command=PrintToScreen)
 
 
 m3=Menu(m)
