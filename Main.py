@@ -10,13 +10,13 @@ P1=0
 P2=0 
 P3=0
 
+filename="Default.txt"
 
 root.title("Лабораторная работа №4 - git (вариант 1)")
 root.geometry("400x300")
 #root.resizable(width=False, height = False)
-filename="Default.txt"
 
-def close_win(self):
+def close_win():
 	root.destroy()
 
 def win_set():
@@ -63,36 +63,44 @@ def win_about():
 
 def _open():
 	global filename
-	op=askopenfilename()
-	for l in fileinput.input(op):
-		tex.insert(END,l)
-	filename=op.rpartition('/')[2]
-	root.title(filename)
+	try:
+		op=askopenfilename()
+		for l in fileinput.input(op):
+			tex.insert(END,l)
+		filename=op.rpartition('/')[2]
+		root.title(filename)
+	except:
+		print("не указал имя файла, могла бы быть ошибка, но обработчик сработал")
 
 def _save():
 	global filename
-	sa=asksaveasfilename(initialfile=filename)
-	letter=tex.get(1.0,END)
-	file=open(sa, "w")
-	file.write(letter)
-	filename=file.name.rpartition('/')[2]
-	root.title(filename)
-	file.close()
+	try:
+		sa=asksaveasfilename(initialfile=filename)
+		letter=tex.get(1.0,END)
+		file=open(sa, "w")
+		file.write(letter)
+		filename=file.name.rpartition('/')[2]
+		root.title(filename)
+		file.close()
+	except:
+		print("не указал имя файла, могла бы быть ошибка, но обработчик сработал")
 
 def _rename():
 	global filename
 	def close_ren(self):
+		global filename
 		filename=nname.get()
 		root.title(filename)
 		ren.destroy()
 	ren=Toplevel()
-	ren.geometry("150x50")
+	ren.geometry("200x50")
 	lab=Label(ren,text="Введите новое имя файла")
 	lab.pack()
 	ren.title("RENAME")
 	ren.resizable(width=False, height = False)
 	nname=Entry(ren, textvariable=filename)
 	nname.pack()
+	nname.focus()
 	nname.bind("<Return>", close_ren)
 	
 def win_devs():
@@ -101,12 +109,11 @@ def win_devs():
 def PRINTER():
 	global filename
 	if filename != "Default.txt":
-		print("if = title")
+		os.chdir(r'd:\temp\DocFormat')
 		os.startfile(filename, "print")
 	else:
-		print("else no")
 		messagebox.showinfo("Ошибка-1",	"Выполните сохранение файла")	
-	
+
 root.bind("<Escape>", close_win)	
 
 tex=Text(root, font="12")
@@ -125,7 +132,7 @@ m1.add_command(label="Выход", command=close_win)
 m2=Menu(m)
 m.add_cascade(label="Print", menu=m2)
 m2.add_command(label="Печать на принтер", command=PRINTER)
-m2.add_command(label="Печать в файл")
+m2.add_command(label="Печать в файл") #command=to_printer(tex.get(1.0, END))
 m2.add_command(label="Печать на экран")
 
 
