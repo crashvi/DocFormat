@@ -1,26 +1,25 @@
-from datetime import datetime
-from tkinter import *
-import	 fileinput
-from tkinter.filedialog import *
-from tkinter import messagebox
+from datetime import datetime  	#дата и время
+from tkinter import *			#Графический интерфейс
+import	 fileinput				#файлы
+from tkinter.filedialog import *	#диалоговые окна
+from tkinter import messagebox		#диалоговые окна
 import os
 
-root = Tk()
-
-P1=5
+root = Tk()						
+#FileDir='C:\\temp\\DocFormat\\'
+P1=5		#задание значений по умолчанию
 P2=10 
 P3=1
-
 filename="Default.txt"
 
 root.title("Лабораторная работа №4 - git (вариант 1)")
 root.geometry("400x300")
-#root.resizable(width=False, height = False)
+root.resizable(width=False, height = False)
 
-def close_win(self):
+def close_win(self):	
 	root.destroy()
 
-def win_set():
+def win_set():	#модальное окно изменения настроек печати
 	global P1,P2,P3
 	def save_s():
 		global P1,P2,P3
@@ -50,7 +49,7 @@ def win_set():
 	Che1=Checkbutton(win_s, variable=P3_0, onvalue=1, offvalue=0).grid(row=2,column=1)
 	B1=Button(win_s, text="сохранить изменения", command=save_s).grid(row=3,column=1)
 
-def win_about():
+def win_about(): #окно меню о программе
 	win=Toplevel()
 	win.title("О программе")
 	win.geometry("580x175")
@@ -62,7 +61,7 @@ def win_about():
 	file.close()
 	zad.pack()
 
-def _open():
+def _open():	#функция октрытия документа
 	global filename
 	try:
 		tex.delete(1.0,END)
@@ -71,23 +70,23 @@ def _open():
 			tex.insert(END,l)
 		filename=op.rpartition('/')[2]
 		root.title(filename)
-	except:
+	except: #обработка ошибки закрытия окна выбора файла без выбора файла
 		print("не указал имя файла, могла бы быть ошибка, но обработчик сработал")
 
-def _save():
+def _save(): #функция сохранения документа
 	global filename
 	try:
-		sa=asksaveasfilename(initialfile=filename)
+		sa=asksaveasfilename(defaultextension='.txt',initialfile=filename)
 		letter=tex.get(1.0,END)
 		file=open(sa, "w")
 		file.write(letter)
 		filename=file.name.rpartition('/')[2]
 		root.title(filename)
 		file.close()
-	except:
+	except: #обработка ошибки закрытия окна сохранения
 		print("не указал имя файла, могла бы быть ошибка, но обработчик сработал")
 
-def _rename():
+def _rename(): #функция переименования документа
 	global filename
 	def close_ren(self):
 		global filename
@@ -105,34 +104,51 @@ def _rename():
 	nname.focus()
 	nname.bind("<Return>", close_ren)
 	
-def win_devs():
+def win_devs(): #функция информация о разработчиках
 	messagebox.showinfo("Разработчики",	"Выполнили студенты группы ИСМ-20-2\nАнтонов, Болатов")
 
-def PRINTER():
-	global filename
+def PRINTER(): #функция вывода печати на принтер
+	global FileDir
 	if filename != "Default.txt":
-		os.chdir(r'd:\temp\DocFormat')
+		#os.chdir(FileDir)
 		os.startfile(filename, "print")
 	else:
 		messagebox.showinfo("Ошибка-1",	"Выполните сохранение файла")	
 
-def PrintToScreen():
+def PrintToScreen(): #функция печати на экран
 	global P1,P2,P3
 	s= []
 	print()
 	for i in range(1,int(P1)+1,1):
 		s.append(tex.get(str(i)+'.0',str(i)+'.end'))
-		s[i-1]='*'*int(P2)+s[i-1]
+		s[i-1]=' '*int(P2)+s[i-1]
 	for i in range(1,int(P1)+1,1):
 		print(s[i-1])
 	if P3==1:
 		current_datetime = datetime.now()
 		DT = str(current_datetime).partition('.')[0]
-		print('\n',DT,'\n')
+		print(' '*int(P2)+DT)
 	else:
 		print('\n')
 
-	
+def PrintToFile(): #функция печати в файл
+	global P1,P2,P3,filename
+	s=[]
+	for i in range(1,int(P1)+1,1):
+		s.append(tex.get(str(i)+'.0',str(i)+'.end'))
+		s[i-1]=' '*int(P2)+s[i-1]
+	try:
+		sa=asksaveasfilename(defaultextension='.ttt',initialfile="Print_"+filename)
+		file=open(sa, "w")
+		for j in range(1,P1+1,1):
+			file.write(s[j-1]+'\n')
+		if P3==1:
+			current_datetime = datetime.now()
+			DT = str(current_datetime).partition('.')[0]
+			file.write(' '*int(P2)+DT)
+			file.close()
+	except:
+		print("могла бы быть ошибка, но обработчик сработал")	
 
 root.bind("<Escape>", close_win)	
 
@@ -140,7 +156,7 @@ tex=Text(root, font="12", width=400,)
 tex.pack()
 
 m=Menu(root)
-root.config(menu=m)
+root.config(menu=m) #настройка пунктов меню программы
 
 m1=Menu(m)
 m.add_cascade(label="File", menu=m1)
@@ -152,7 +168,7 @@ m1.add_command(label="Выход", command=close_win)
 m2=Menu(m)
 m.add_cascade(label="Print", menu=m2)
 m2.add_command(label="Печать на принтер", command=PRINTER)
-m2.add_command(label="Печать в файл",)# command=PrintToFile)
+m2.add_command(label="Печать в файл", command=PrintToFile)
 m2.add_command(label="Печать на экран", command=PrintToScreen)
 
 
