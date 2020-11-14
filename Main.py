@@ -158,12 +158,6 @@ tex.pack()
 m=Menu(root)
 root.config(menu=m) #настройка пунктов меню программы
 
-m1=Menu(m)
-m.add_cascade(label="File", menu=m1)
-m1.add_command(label="Открыть", command=_open)
-m1.add_command(label="Сохранить", command=_save)
-m1.add_command(label="Ввод нового имени файла", command=_rename)
-m1.add_command(label="Выход", command=close_win)
 
 m2=Menu(m)
 m.add_cascade(label="Print", menu=m2)
